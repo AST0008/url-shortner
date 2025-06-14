@@ -1,0 +1,39 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Shortener</title>
+  <style>
+    body { font-family: Arial; padding: 2rem; max-width: 600px; margin: auto; }
+    input, button { padding: 0.5rem; font-size: 1rem; margin-top: 1rem; width: 100%; }
+    .result { margin-top: 1rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>🔗 URL Shortener</h1>
+  <input type="text" id="urlInput" placeholder="Enter URL to shorten">
+  <button onclick="shortenUrl()">Shorten</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    async function shortenUrl() {
+      const originalUrl = document.getElementById("urlInput").value;
+      const res = await fetch("https://13cypnnic9.execute-api.us-east-1.amazonaws.com/dev/shorten", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ originalUrl })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById("result").innerHTML = `
+          Shortened URL: <a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a>
+        `;
+      } else {
+        document.getElementById("result").innerText = data.error || "Something went wrong.";
+      }
+    }
+  </script>
+</body>
+</html>
