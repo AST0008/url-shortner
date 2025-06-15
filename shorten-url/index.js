@@ -24,12 +24,14 @@ exports.handler = async (event) => {
   }
 
   const shortCode = crypto.randomBytes(3).toString("hex");
+  const expirationInSeconds = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7;
 
   const command = new PutItemCommand({
     TableName: process.env.TABLE_NAME,
     Item: {
       shortCode: { S: shortCode },
       originalUrl: { S: originalUrl },
+      expireAt: { N: expirationInSeconds.toString() }
     },
   });
 
