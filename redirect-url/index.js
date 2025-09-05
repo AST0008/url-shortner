@@ -3,7 +3,7 @@ const { DynamoDBClient, GetItemCommand } = require("@aws-sdk/client-dynamodb");
 const client = new DynamoDBClient({ region: "us-east-1" });
 
 exports.handler = async (event) => {
-  console.log("EVENT:", JSON.stringify(event)); // 👈 helpful log
+  console.log("EVENT:", JSON.stringify(event)); 
 
   const shortCode = event.pathParameters.shortCode;
 
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
       body: null,
     };
   } catch (err) {
-    console.error("ERROR:", err); // 👈 log actual error
+    console.error("ERROR:", err);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Internal server error" }),
